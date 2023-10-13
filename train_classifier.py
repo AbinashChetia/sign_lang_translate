@@ -1,4 +1,5 @@
 import pickle
+import datetime as dt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -20,7 +21,8 @@ print('Testing...')
 y_pred = clf.predict(X_test)
 print(f'{accuracy_score(y_test, y_pred) * 100}% of samples classified correctly')
 
-f = open('model.pickle', 'wb')
+now = dt.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+f = open(f'trained_models/model_{now}.pickle', 'wb')
 pickle.dump({'model': clf}, f)
 f.close()
-print('Model saved')
+print('Model saved!')

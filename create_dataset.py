@@ -1,8 +1,9 @@
 import mediapipe as mp
 import cv2
 import os
-import matplotlib.pyplot as plt
 import pickle
+import datetime as dt
+from tqdm import tqdm
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
@@ -10,14 +11,17 @@ mp_drawing_styles = mp.solutions.drawing_styles
 
 hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
-DATA_DIR = './data/data_generated'
+DATA_DIR = './data/isl_data'
 
 data = []
 labels = []
 
-for dir_ in os.listdir(DATA_DIR):
+max_count = 10
+
+for dir_ in tqdm(os.listdir(DATA_DIR)):
     if dir_ == '.DS_Store':
         continue
+    count = 0
     for img_path in os.listdir(os.path.join(DATA_DIR, dir_)):
         data_aux = []
         img = cv2.imread(os.path.join(DATA_DIR, dir_, img_path))
@@ -34,7 +38,12 @@ for dir_ in os.listdir(DATA_DIR):
 
             data.append(data_aux)
             labels.append(dir_)
+        
+        count += 1
+        if count == max_count:
+            break
 
-f = open('data.pickle', 'wb')
+now = dt.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+f = open(f'prep_data/data_{now}.pickle', 'wb')
 pickle.dump({'data': data, 'labels': labels}, f)
 f.close()
