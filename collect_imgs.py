@@ -2,7 +2,7 @@ import os
 import cv2
 import time
 
-DATA_dir = './data'
+DATA_dir = './data/data_generated'
 if not os.path.exists(DATA_dir):
     os.mkdir(DATA_dir)
 
