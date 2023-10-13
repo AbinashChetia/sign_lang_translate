@@ -11,7 +11,8 @@ mp_drawing_styles = mp.solutions.drawing_styles
 
 hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
-DATA_DIR = './data/generated_data'
+DATA_DIR = './data/gen_data'
+data_prefix = DATA_DIR.split('/')[-1]
 
 data = []
 labels = []
@@ -44,6 +45,6 @@ for dir_ in tqdm(os.listdir(DATA_DIR)):
             break
 
 now = dt.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
-f = open(f'prep_data/data_{now}.pickle', 'wb')
+f = open(f'prep_data/{data_prefix}_{now}.pickle', 'wb')
 pickle.dump({'data': data, 'labels': labels}, f)
 f.close()

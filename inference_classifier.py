@@ -3,7 +3,9 @@ import mediapipe as mp
 import pickle
 import numpy as np
 
-model_dict = pickle.load(open('trained_models/model_2023_10_13_15_51_36.pickle', 'rb'))
+MODEL_LOC = 'trained_models/gen_model_2023_10_13_16_05_49.pickle'
+
+model_dict = pickle.load(open(MODEL_LOC, 'rb'))
 model = model_dict['model']
 
 cap = cv2.VideoCapture(0)
