@@ -3,10 +3,11 @@ import mediapipe as mp
 import pickle
 import numpy as np
 
-MODEL_LOC = 'trained_models/gen_model_2023_10_21_11_35_07.pickle'
+MODEL_LOC = 'trained_models/isl_model_2023_10_21_13_02_04.pickle'
 
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
-model = model_dict['model']
+model1 = model_dict['model1']
+model2 = model_dict['model2']
 
 cap = cv2.VideoCapture(0)
 
@@ -16,7 +17,7 @@ mp_drawing_styles = mp.solutions.drawing_styles
 
 hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
-labels_dict = {'A': 'A', 'B': 'B', 'C': 'C'}
+# labels_dict = {'A': 'A', 'B': 'B', 'C': 'C'}
 
 while True:
 
@@ -51,8 +52,11 @@ while True:
             y1 = int(min(y_) * H) - 10
             y2 = int(max(y_) * H) - 10
 
-        if len(data_aux) == model.n_features_in_:
-            prediction = model.predict([np.asarray(data_aux)])
+        if len(data_aux) == model1.n_features_in_:
+            prediction = model1.predict([np.asarray(data_aux)])
+            predicted_char = prediction[0]
+        elif len(data_aux) == model2.n_features_in_:
+            prediction = model2.predict([np.asarray(data_aux)])
             predicted_char = prediction[0]
 
     if x1 is not None and predicted_char is not None:
