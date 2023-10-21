@@ -3,7 +3,7 @@ import mediapipe as mp
 import pickle
 import numpy as np
 
-MODEL_LOC = 'trained_models/gen_model_2023_10_13_16_05_49.pickle'
+MODEL_LOC = 'trained_models/gen_model_2023_10_21_11_35_07.pickle'
 
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
 model = model_dict['model']
@@ -16,7 +16,7 @@ mp_drawing_styles = mp.solutions.drawing_styles
 
 hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
-labels_dict = {0: 'A', 1: 'B', 2: 'C'}
+labels_dict = {'A': 'A', 'B': 'B', 'C': 'C'}
 
 while True:
 
@@ -53,7 +53,7 @@ while True:
 
         if len(data_aux) == model.n_features_in_:
             prediction = model.predict([np.asarray(data_aux)])
-            predicted_char = labels_dict[int(prediction[0])]
+            predicted_char = prediction[0]
 
     if x1 is not None and predicted_char is not None:
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
