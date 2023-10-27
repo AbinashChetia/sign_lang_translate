@@ -3,7 +3,7 @@ import mediapipe as mp
 import pickle
 import numpy as np
 
-MODEL_LOC = 'trained_models/isl_model_2023_10_21_13_02_04.pickle'
+MODEL_LOC = 'trained_models/isl_model_2023_10_27_14_54_50.pickle'
 
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
 model1 = model_dict['model1']
