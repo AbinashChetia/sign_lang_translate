@@ -10,6 +10,8 @@ model1 = model_dict['model1']
 model2 = model_dict['model2']
 
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 180)
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
