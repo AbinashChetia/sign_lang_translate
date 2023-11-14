@@ -5,12 +5,14 @@ import numpy as np
 import wordsegment as ws
 import time
 
-MODEL_LOC = 'trained_models/isl_model_2023_10_27_14_54_50.pickle'
+# MODEL_LOC = 'trained_models/isl_model_2023_10_27_14_54_50.pickle'
+MODEL_LOC = 'trained_models/asl_model_2023_11_14_16_48_03.pickle'
 ENGLISH_ALPHABETS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
-model1 = model_dict['model1']
-model2 = model_dict['model2']
+# model1 = model_dict['model1']
+# model2 = model_dict['model2']
+model = model_dict['model']
 
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
@@ -60,11 +62,14 @@ while True:
             y1 = int(min(y_) * H) - 10
             y2 = int(max(y_) * H) - 10
 
-        if len(data_aux) == model1.n_features_in_:
-            prediction = model1.predict([np.asarray(data_aux)])
-            predicted_char = prediction[0]
-        elif len(data_aux) == model2.n_features_in_:
-            prediction = model2.predict([np.asarray(data_aux)])
+        # if len(data_aux) == model1.n_features_in_:
+        #     prediction = model1.predict([np.asarray(data_aux)])
+        #     predicted_char = prediction[0]
+        # elif len(data_aux) == model2.n_features_in_:
+        #     prediction = model2.predict([np.asarray(data_aux)])
+        #     predicted_char = prediction[0]
+        if len(data_aux) == model.n_features_in_:
+            prediction = model.predict([np.asarray(data_aux)])
             predicted_char = prediction[0]
 
     if x1 is not None and predicted_char is not None:
@@ -77,7 +82,7 @@ while True:
         cv2.putText(frame, predicted_char, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3)
         cv2.rectangle(frame, (10, frame.shape[0]), (frame.shape[1]-10, frame.shape[0]-35), (0,0,0), -1)
         cv2.putText(frame, text_to_display, (10, frame.shape[0]-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 3)
-        time.sleep(1)
+        # time.sleep(1)
     cv2.imshow('Frame (Press Q to exit)', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
