@@ -2,8 +2,11 @@ import cv2
 import mediapipe as mp
 import pickle
 import numpy as np
+import wordsegment as ws
+import time
 
 MODEL_LOC = 'trained_models/isl_model_2023_10_27_14_54_50.pickle'
+ENGLISH_ALPHABETS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
 model1 = model_dict['model1']
@@ -20,6 +23,9 @@ mp_drawing_styles = mp.solutions.drawing_styles
 hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
 # labels_dict = {'A': 'A', 'B': 'B', 'C': 'C'}
+
+char_buffer = ''
+ws.load()
 
 while True:
 
@@ -62,8 +68,16 @@ while True:
             predicted_char = prediction[0]
 
     if x1 is not None and predicted_char is not None:
+        if len(char_buffer) > 30:
+            char_buffer = ''
+        char_buffer += predicted_char
+        text_to_display = ws.segment(char_buffer)
+        text_to_display = ' '.join(text_to_display)
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
         cv2.putText(frame, predicted_char, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3)
+        cv2.rectangle(frame, (10, frame.shape[0]), (frame.shape[1]-10, frame.shape[0]-35), (0,0,0), -1)
+        cv2.putText(frame, text_to_display, (10, frame.shape[0]-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 3)
+        time.sleep(1)
     cv2.imshow('Frame (Press Q to exit)', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
