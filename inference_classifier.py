@@ -27,7 +27,11 @@ hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 # labels_dict = {'A': 'A', 'B': 'B', 'C': 'C'}
 
 char_buffer = ''
+text_to_display = ''
 ws.load()
+
+start_time = time.time()
+delay = 3
 
 while True:
 
@@ -72,7 +76,8 @@ while True:
             prediction = model.predict([np.asarray(data_aux)])
             predicted_char = prediction[0]
 
-    if x1 is not None and predicted_char is not None:
+    if x1 is not None and predicted_char is not None and time.time() - start_time > delay:
+        start_time = time.time()
         if len(char_buffer) > 30:
             char_buffer = ''
         char_buffer += predicted_char
@@ -80,9 +85,8 @@ while True:
         text_to_display = ' '.join(text_to_display)
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
         cv2.putText(frame, predicted_char, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3)
-        cv2.rectangle(frame, (10, frame.shape[0]), (frame.shape[1]-10, frame.shape[0]-35), (0,0,0), -1)
-        cv2.putText(frame, text_to_display, (10, frame.shape[0]-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 3)
-        # time.sleep(1)
+    cv2.rectangle(frame, (10, frame.shape[0]), (frame.shape[1]-10, frame.shape[0]-35), (0,0,0), -1)
+    cv2.putText(frame, text_to_display, (10, frame.shape[0]-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 3)
     cv2.imshow('Frame (Press Q to exit)', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
