@@ -5,14 +5,16 @@ import numpy as np
 import wordsegment as ws
 import time
 
-# MODEL_LOC = 'trained_models/isl_model_2023_10_27_14_54_50.pickle'
-MODEL_LOC = 'trained_models/asl_model_2023_11_14_16_48_03.pickle'
-ENGLISH_ALPHABETS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+import torch
+
+# MODEL_LOC = 'trained_models/asl_model_2023_11_15_15_40_31.pickle'
+MODEL_LOC = 'trained_models/asl_model_2023_11_15_17_04_47.pickle'
 
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
 # model1 = model_dict['model1']
 # model2 = model_dict['model2']
 model = model_dict['model']
+lab_encdr = model_dict['lab_encdr']
 
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
@@ -72,9 +74,14 @@ while True:
         # elif len(data_aux) == model2.n_features_in_:
         #     prediction = model2.predict([np.asarray(data_aux)])
         #     predicted_char = prediction[0]
-        if len(data_aux) == model.n_features_in_:
-            prediction = model.predict([np.asarray(data_aux)])
-            predicted_char = prediction[0]
+
+        # if len(data_aux) == model.n_features_in_:
+            # prediction = model.predict([np.asarray(data_aux)])
+            # predicted_char = prediction[0]
+
+        if len(data_aux) == model.n_in_feats:
+            prediction = model.predict(torch.from_numpy(np.asarray(data_aux, dtype=np.float32)).unsqueeze(0))
+            predicted_char = lab_encdr.inverse_transform([prediction.item()])[0]
 
     if x1 is not None and predicted_char is not None and time.time() - start_time > delay:
         start_time = time.time()
