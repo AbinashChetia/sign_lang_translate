@@ -38,7 +38,7 @@ text_to_display = ''
 ws.load()
 
 start_time = time.time()
-delay = 3
+delay = 2
 
 while True:
 
