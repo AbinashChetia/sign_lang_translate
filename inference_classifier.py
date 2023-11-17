@@ -87,6 +87,8 @@ while True:
         if len(data_aux) == model.n_in_feats:
             prediction = model.predict(torch.from_numpy(np.asarray(data_aux, dtype=np.float32)).unsqueeze(0).to(DEVICE))
             predicted_char = lab_encdr.inverse_transform([prediction.item()])[0]
+            if predicted_char == 'nothing' or predicted_char == 'space' or predicted_char == 'del':
+                predicted_char = None
 
     if x1 is not None and predicted_char is not None and time.time() - start_time > delay:
         start_time = time.time()
@@ -97,7 +99,7 @@ while True:
         text_to_display = ' '.join(text_to_display)
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
         cv2.putText(frame, predicted_char, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3)
-    cv2.rectangle(frame, (10, frame.shape[0]), (frame.shape[1]-10, frame.shape[0]-35), (0,0,0), -1)
+    cv2.rectangle(frame, (0, frame.shape[0]), (frame.shape[1], frame.shape[0]-35), (0,0,0), -1)
     cv2.putText(frame, text_to_display, (10, frame.shape[0]-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 3)
     cv2.imshow('Frame (Press Q to exit)', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
