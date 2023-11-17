@@ -7,7 +7,6 @@ import time
 
 import torch
 
-# MODEL_LOC = 'trained_models/asl_model_2023_11_15_15_40_31.pickle'
 MODEL_LOC = 'trained_models/asl_model_2023_11_17_13_49_32.pickle'
 
 if torch.backends.mps.is_available():
@@ -33,8 +32,6 @@ mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 
 hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
-
-# labels_dict = {'A': 'A', 'B': 'B', 'C': 'C'}
 
 char_buffer = ''
 text_to_display = ''
@@ -88,7 +85,7 @@ while True:
             # predicted_char = prediction[0]
 
         if len(data_aux) == model.n_in_feats:
-            prediction = model.predict(torch.from_numpy(np.asarray(data_aux, dtype=np.float32)).unsqueeze(0))
+            prediction = model.predict(torch.from_numpy(np.asarray(data_aux, dtype=np.float32)).unsqueeze(0).to(DEVICE))
             predicted_char = lab_encdr.inverse_transform([prediction.item()])[0]
 
     if x1 is not None and predicted_char is not None and time.time() - start_time > delay:
