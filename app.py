@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, redirect, url_for
 import cv2
 import mediapipe as mp
 import pickle
@@ -21,7 +21,7 @@ lab_encdr = model_dict['lab_encdr']
 app = Flask(__name__, template_folder='./templates')
 
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 400)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 180)
 
 def start_inferencing():
@@ -103,6 +103,12 @@ def index():
 @app.route('/infer')
 def infer():
     return Response(start_inferencing(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/clear')
+def clear():
+    global char_buffer
+    char_buffer = ''
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)

@@ -1,18 +1,32 @@
 <html>
-    <body
-        <div style="background-color: rgb(163, 145, 145);
-        color: rgb(0, 0, 0);
-        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);">
-            <h1>Sign Language Translation</h1>
+    <body style="background-color: rgb(163, 145, 145);
+    background-image: linear-gradient(65deg, #2e4052 0%, #251930 100%);
+    color: rgb(201, 238, 236);
+    font-family:monospace; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);">
+        <h1 style="text-align: center; font: size 40px;">Sign Language Translation</h1>
+        <div>
             <div style="border: 5px solid;
             border-radius: 10px;">
                 <img src="{{ url_for('infer') }}" height="85%">
             </div>
-            <h4>Made by <a href="https://github.com/AbinashChetia" target="_blank">Abinash Chetia</a></h4>
+            <br>
+            <form>
+                <button type="Clear" formaction="{{ url_for('clear') }}" style="background-color: rgb(102, 49, 49);
+                color:aliceblue;
+                font-size: 18px;
+                padding: 5px;
+                font-family:monospace;
+                float:inline-end;">Clear Captions</button>
+            </form>
+            <h3>Supports <a style="color: rgb(205, 231, 182);" href="https://www.nidcd.nih.gov/health/american-sign-language" target="_blank">American Sign Language</a></h3>
+            <h3><a style="color: rgb(205, 231, 182);" href="https://github.com/AbinashChetia/sign_lang_translate" target="_blank">Source code</a></h3>
+            <br>
+            <br>
+            <h4>Created by <a style="color: rgb(205, 231, 182);" href="https://github.com/AbinashChetia" target="_blank">Abinash Chetia</a></h4>
         </div>
         </body>
 </html>
