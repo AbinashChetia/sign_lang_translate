@@ -7,7 +7,7 @@ import time
 
 import torch
 
-MODEL_LOC = 'trained_models/asl_model_2023_11_17_13_49_32.pickle'
+MODEL_LOC = 'trained_models/asl_model_2023_11_17_14_11_24.pickle'
 
 if torch.backends.mps.is_available():
     if torch.backends.mps.is_built():
