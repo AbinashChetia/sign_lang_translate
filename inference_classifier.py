@@ -8,7 +8,15 @@ import time
 import torch
 
 # MODEL_LOC = 'trained_models/asl_model_2023_11_15_15_40_31.pickle'
-MODEL_LOC = 'trained_models/asl_model_2023_11_15_17_04_47.pickle'
+MODEL_LOC = 'trained_models/asl_model_2023_11_17_13_49_32.pickle'
+
+if torch.backends.mps.is_available():
+    if torch.backends.mps.is_built():
+        DEVICE = torch.device("mps")
+    else:
+        DEVICE = torch.device("cpu")
+else:
+    DEVICE = torch.device("cpu")
 
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
 # model1 = model_dict['model1']
