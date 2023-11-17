@@ -24,7 +24,7 @@ model = model_dict['model']
 lab_encdr = model_dict['lab_encdr']
 
 cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 400)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 180)
 
 mp_hands = mp.solutions.hands
