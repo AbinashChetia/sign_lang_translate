@@ -1,3 +1,3 @@
 # Indian Sign Language Translation
 
-![Snapshot]('./snapshots/snap1.png')
+![Snapshot]('snapshots/snap1.png')
