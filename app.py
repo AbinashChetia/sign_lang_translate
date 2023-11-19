@@ -7,11 +7,10 @@ import wordsegment as ws
 import torch
 import time
 
-if torch.backends.mps.is_available():
-    if torch.backends.mps.is_built():
+if torch.backends.mps.is_available() and torch.backends.mps.is_built():
         DEVICE = torch.device("mps")
-    else:
-        DEVICE = torch.device("cpu")
+elif torch.cuda.is_available():
+    DEVICE = torch.device("cuda")
 else:
     DEVICE = torch.device("cpu")
 MODEL_LOC = 'trained_models/asl_model_2023_11_17_14_11_24.pickle'
