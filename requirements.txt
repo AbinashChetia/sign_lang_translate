@@ -4,3 +4,4 @@ mediapipe
 numpy
 wordsegment
 torch
+sklearn
