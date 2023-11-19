@@ -13,9 +13,9 @@ elif torch.cuda.is_available():
     DEVICE = torch.device("cuda")
 else:
     DEVICE = torch.device("cpu")
-MODEL_LOC = 'trained_models/asl_model_2023_11_17_14_11_24.pickle'
+MODEL_LOC = 'trained_models/asl_model_2023_11_19_11_43_37.pickle'
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
-model = model_dict['model']
+model = model_dict['model'].to(DEVICE)
 lab_encdr = model_dict['lab_encdr']
 app = Flask(__name__, template_folder='./templates')
 
@@ -110,7 +110,7 @@ def clear():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True)
+    app.run(port=8000)
 
 cap.release()
 cv2.destroyAllWindows()     
