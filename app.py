@@ -13,7 +13,7 @@ elif torch.cuda.is_available():
     DEVICE = torch.device("cuda")
 else:
     DEVICE = torch.device("cpu")
-MODEL_LOC = 'trained_models/asl_model_2023_11_19_11_43_37.pickle'
+MODEL_LOC = 'trained_models/asl_model_2023_11_20_22_27_52.pickle'
 model_dict = pickle.load(open(MODEL_LOC, 'rb'))
 model = model_dict['model'].to(DEVICE)
 lab_encdr = model_dict['lab_encdr']
